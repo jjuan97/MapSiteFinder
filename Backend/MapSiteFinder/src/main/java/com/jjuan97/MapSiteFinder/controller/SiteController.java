@@ -1,4 +1,4 @@
-package com.jjuan97.MapSiteFinder;
+package com.jjuan97.MapSiteFinder.controller;
 
 import com.jjuan97.MapSiteFinder.model.Site;
 import com.jjuan97.MapSiteFinder.service.SiteService;

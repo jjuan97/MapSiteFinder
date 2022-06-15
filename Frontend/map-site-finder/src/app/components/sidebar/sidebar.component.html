@@ -1,0 +1,53 @@
+<div class="card mx-2 my-4">
+  <div class="card-header">
+    <p class="card-header-title has-text-primary">
+      Sites Info
+    </p>
+  </div>
+  <div class="card-content">
+    <div class="content">
+      <div class="dropdown" [ngClass]="{'is-active' : dropdownActive}">
+        <div class="dropdown-trigger">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input class="input is-rounded is-info" type="search" placeholder="Find a Colombian City"
+                [(ngModel)]="siteData" ngModel (ngModelChange)="showDropdown(key.value)" #key="ngModel">
+            </div>
+          </div>
+        </div>
+        <div class="dropdown-menu" id="dropdown-menu" role="menu">
+          <div class="dropdown-content">
+            <a class="dropdown-item" *ngFor="let site of sites | filter:siteData" (click)="selectSite(site)">
+              {{site.city}}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="content sidebare-overflow">
+      <table>
+        <thead>
+          <tr>
+            <td class="has-text-info"><b>City</b></td>
+            <td class="has-text-info"><b>Department</b></td>
+            <td class="has-text-info"><b>Latitude</b></td>
+            <td class="has-text-info"><b>Longitude</b></td>
+            <td class="has-text-info"><b>Population</b></td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let site of selectSites">
+            <td>{{site.city}}</td>
+            <td>{{site.admin_name}}</td>
+            <td>{{site.lat | number: '0.0-5'}}</td>
+            <td>{{site.lng | number: '0.0-5'}}</td>
+            <td>{{site?.population}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <a (click)="cleanMarkers()" id="clean-button" class="card-footer-item">Clean all sites</a>
+  </footer>
+</div>

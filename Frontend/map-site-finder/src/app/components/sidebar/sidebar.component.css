@@ -1,0 +1,9 @@
+.sidebare-overflow{
+    height: 40vh;
+    overflow-y: scroll;
+}
+
+.dropdown-content {
+    max-height: 13em;
+    overflow: auto;
+  }
