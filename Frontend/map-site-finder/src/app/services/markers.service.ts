@@ -12,8 +12,6 @@ export class MarkersService {
 
   myMarkers$ = this.myMarkers.asObservable();
 
-
-
   constructor() { }
 
   addMarker (marker : Marker) {

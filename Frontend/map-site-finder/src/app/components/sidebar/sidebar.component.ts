@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import {startWith, map} from 'rxjs/operators';
 
 // Service
 import { MarkersService } from 'src/app/services/markers.service';
@@ -19,8 +22,12 @@ export class SidebarComponent implements OnInit {
   public sites: Site[];
   public selectSites: Site[];
 
-  siteData!: string; // Pipe to search (ng2Search)
   public dropdownActive: boolean = false;
+
+  // Search Box
+  control = new FormControl();
+  filteredSites: Observable<Site[]> | undefined;
+  public select_site!: Site;
 
   constructor(private markersService: MarkersService, private siteService: SiteService){
     this.sites = [];
@@ -29,18 +36,35 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllSites();
+
+    // Search box pipe
+    this.filteredSites = this.control.valueChanges.pipe(
+      startWith<string | Site>(''),
+      map(value => typeof value === 'string' ? value : value.city),
+      map(value => this._filter(value || '')),
+    );
+  }
+
+  // Search Function
+  private _filter(value: string): Site[] {
+    const filterValue = this._normalizeValue(value);
+    return this.sites.filter(site => this._normalizeValue(site.city).includes(filterValue));
+  }
+
+  private _normalizeValue(value: string): string {
+    return value.toLowerCase().replace(/\s/g, '');
+  }
+
+  public displayFn(site: Site): string {
+    if (site) {
+      return site.city;
+    }
+    else {
+      return "";
+    }
   }
 
   // Client functions
-  public showDropdown(key:string): void {
-    if (key){
-      this.dropdownActive = true;
-    }
-    else {
-      this.dropdownActive = false;
-    }
-  }
-
   public cleanMarkers(): void {
     this.selectSites = [];
     this.markersService.clearMarkers();
@@ -54,6 +78,7 @@ export class SidebarComponent implements OnInit {
 
   // Site service functions
   public selectSite(site: Site): void {
+    console.log(site);
     this.siteService.getSiteById(site.id).subscribe({
       next: (response: Site) => {
         this.selectSites.push(response)

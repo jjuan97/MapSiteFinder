@@ -6,23 +6,23 @@
   </div>
   <div class="card-content">
     <div class="content">
-      <div class="dropdown" [ngClass]="{'is-active' : dropdownActive}">
-        <div class="dropdown-trigger">
-          <div class="field has-addons">
-            <div class="control is-expanded">
-              <input class="input is-rounded is-info" type="search" placeholder="Find a Colombian City"
-                [(ngModel)]="siteData" ngModel (ngModelChange)="showDropdown(key.value)" #key="ngModel">
-            </div>
-          </div>
-        </div>
-        <div class="dropdown-menu" id="dropdown-menu" role="menu">
-          <div class="dropdown-content">
-            <a class="dropdown-item" *ngFor="let site of sites | filter:siteData" (click)="selectSite(site)">
+      <form class="field has-addons">
+        <div class="control">
+          <input class="input is-info" type="search" placeholder="Search for a site" matInput [formControl]="control"
+            [matAutocomplete]="auto"
+            id="username" name="username" [(ngModel)]="select_site">
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" ><!--(optionSelected)="selectSiteE($event)">-->
+            <mat-option *ngFor="let site of filteredSites | async" [value]="site" >
               {{site.city}}
-            </a>
-          </div>
+            </mat-option>
+          </mat-autocomplete>
         </div>
-      </div>
+        <div class="control">
+          <a class="button is-info" (click)="selectSite(select_site)">
+            Add
+          </a>
+        </div>
+      </form>
     </div>
     <div class="content sidebare-overflow">
       <table>
