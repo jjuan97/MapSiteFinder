@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  backendApiBaseUrl: 'http://localhost:8080'
+  backendApiBaseUrl: 'https://mapsitefinder789521.herokuapp.com'
 };
 
 /*

@@ -78,7 +78,6 @@ export class SidebarComponent implements OnInit {
 
   // Site service functions
   public selectSite(site: Site): void {
-    console.log(site);
     this.siteService.getSiteById(site.id).subscribe({
       next: (response: Site) => {
         this.selectSites.push(response)
